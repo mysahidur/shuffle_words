@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" http-equiv="Access-Control-Allow-Origin">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <style type="text/css">
+    .btn-sticky{
+      height: 0px;
+      position: fixed;
+      right: -20px;
+      top: 50%;
+      z-index: 1000;
+      transform: rotate(-90deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <div id="test"></div>
+            <div class="btn-sticky">
+              <button class="btn btn-success" id="change">Change Word</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+$(document).ready(function(){
+    // $("#btn1").click(function(){
+      
+    // });
+
+
+    jQuery.extend({
+        getValues: function(url) {
+            var result = null;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                async:false,
+                success: function(data) {
+                    result = data.split(/\r?\n/);
+                }
+            });
+           return result;
+        }
+    });
+
+    var results = $.getValues("https://raw.githubusercontent.com/mysahidur/shuffle_words/main/wordset1");
+    var mapping = [];
+
+    for (var i=0;i<results.length;i++){
+      mapping.push(i);
+    }
+
+    // shuffling
+    for (var i = mapping.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = mapping[i];
+        mapping[i] = mapping[j];
+        mapping[j] = temp;
+    }
+
+    console.log(mapping)
+
+
+    var current_index = -1;
+
+    var count = results.length;
+    var max = 12;
+    var min = 7;
+    for(var i=0;i<count;i++)
+    {
+      let x = Math.floor(Math.random() * (max - min + 1) + min);
+      $("#test").append('<span id=word_'+i+' style="font-size:'+x+'px; padding:'+x/2+'px;">'+results[i]+'</span>');
+    } 
+
+
+
+    $("#change").click(function(){
+
+      $('[id=word_'+mapping[current_index]+']').hide();
+      if(current_index<=count){
+        current_index+=1;  
+      }
+      $('[id=word_'+mapping[current_index]+']').css("fontSize", "28px");
+      
+
+      $('html, body').animate({
+          scrollTop: $('#word_'+mapping[current_index]).offset().top
+      }, 200);
+  
+
+    });
+
+
+
+});
+
+</script>
