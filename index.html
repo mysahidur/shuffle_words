@@ -38,25 +38,27 @@
 
 <script>
 $(document).ready(function(){
-    
-    filename = window.location.href.split(/f=/)[1]
-    
+
     jQuery.extend({
         getValues: function(url) {
-            var result = null;
+            var result = [];
             $.ajax({
                 url: url,
                 type: 'GET',
                 async:false,
                 success: function(data) {
-                    result = data.split(/\r?\n/);
+                    for (var c=0;c<data['tree'].length;c++){
+                      if(data['tree'][c]['path'].indexOf('.html') == -1){   //filename not with .html extension, add it
+                          result.push(data['tree'][c]['path']);
+                      }
+                    }
                 }
             });
            return result;
         }
     });
 
-    var results = $.getValues("https://raw.githubusercontent.com/mysahidur/shuffle_words/main/"+filename);
+    var results = $.getValues("https://api.github.com/repos/mysahidur/shuffle_words/git/trees/main?recursive=1");
     var mapping = [];
 
     for (var i=0;i<results.length;i++){
@@ -82,7 +84,7 @@ $(document).ready(function(){
     for(var i=0;i<count;i++)
     {
       let x = Math.floor(Math.random() * (max - min + 1) + min);
-      $("#test").append('<span id=word_'+i+' style="font-size:'+x+'px; padding:'+x/2+'px;">'+results[i]+'</span>');
+      $("#test").append('<a href="shuffle.html?f='+results[i]+'" id=word_'+i+' style="font-size:'+x+'px; padding:'+x/2+'px;">'+results[i]+'</a>');
     } 
 
 
