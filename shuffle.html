@@ -61,7 +61,7 @@ $(document).ready(function(){
     var mapping = [];
     
     for( var i = 0; i < results.length; i++){
-        if (results[i].startswith("#")) {
+        if (results[i].toString().startswith("#")) {
 	    console.log("startswith");
             results.splice(i, 1); 
 	}else{console.log("doesnot starts with")}
