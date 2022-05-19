@@ -50,7 +50,6 @@ $(document).ready(function(){
                 async:false,
                 success: function(data) {
                     result = data.split(/\r?\n/);
-		    console.log(result);
                 }
             });
            return result;
@@ -77,9 +76,6 @@ $(document).ready(function(){
         mapping[i] = mapping[j];
         mapping[j] = temp;
     }
-
-    console.log(mapping)
-
 
     var current_index = -1;
 
