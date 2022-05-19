@@ -62,8 +62,9 @@ $(document).ready(function(){
     
     for( var i = 0; i < results.length; i++){
         if (results[i].startswith("#")) {
+	    console.log("startswith");
             results.splice(i, 1); 
-	}
+	}else{console.log("doesnot starts with")}
     }
 
     for (var i=0;i<results.length;i++){
