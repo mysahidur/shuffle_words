@@ -59,6 +59,12 @@ $(document).ready(function(){
 
     var results = $.getValues("https://raw.githubusercontent.com/mysahidur/shuffle_words/main/"+filename);
     var mapping = [];
+    
+    for( var i = 0; i < results.length; i++){
+        if (results[i].startswith("#")) {
+            results.splice(i, 1); 
+	}
+    }
 
     for (var i=0;i<results.length;i++){
       mapping.push(i);
